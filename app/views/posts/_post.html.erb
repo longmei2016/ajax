@@ -1,11 +1,19 @@
 <div id="post-<%= post.id %>" class="panel panel-default">
-  <div class="panel-heading"><%= post.user.display_name %></div>
+  <div class="panel-heading">
+    <%= post.user.display_name %>
+  </div>
   <div class="panel-body">
+    <span id="post-thumbsup-<%= post.id %>" class="label label-success"><%= post.likes.count %> 👍</span>
     <%= post.content %>
-    <% if current_user && post.user == current_user %>
-      <p class="text-right">
-        <%= link_to "Delete", post_path(post), :method => :delete, :remote => true, :class => "btn btn-danger" %>
-      </p>
-    <% end %>
+    <div class="text-right">
+      <% if current_user && post.user == current_user %>
+        <p class="text-right">
+          <span id="post-like-<%= post.id %>">
+            <%= render :partial => "like", :locals => { :post => post } %>
+          </span>
+          <%= link_to "Delete", post_path(post), :method => :delete, :remote => true, :class => "btn btn-danger" %>
+        </p>
+      <% end %>
+    </div>
   </div>
 </div>

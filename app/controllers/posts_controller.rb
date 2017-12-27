@@ -20,6 +20,22 @@ class PostsController < ApplicationController
     # redirect_to posts_path
   end
 
+  def like
+    @post = Post.find(params[:id])
+    unless @post.find_like(current_user)
+      Like.create(user: current_user, post: @post)
+    end
+    # redirect_to posts_path
+  end
+
+  def unlike
+    @post = Post.find(params[:id])
+    like = @post.find_like(current_user)
+    like.destroy
+    # redirect_to posts_path
+    render 'like'
+  end
+
   protected
 
   def post_params
